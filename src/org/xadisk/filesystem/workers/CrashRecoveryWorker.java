@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2014, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem.workers;
 
 import org.xadisk.filesystem.utilities.FileIOUtility;
@@ -236,6 +238,7 @@ public class CrashRecoveryWorker implements Work {
     }
 
     private void recoverOnePhaseTransactions() throws Exception {
+        WorkManager workManager = xaFileSystem.getWorkManager();
         for (TransactionInformation xid : onePhaseCommittingTransactions) {
             if (released) {
                 return;
@@ -245,18 +248,19 @@ public class CrashRecoveryWorker implements Work {
             recoverySession = xaFileSystem.createRecoverySession(xid, events);
 
             TransactionCompleter commitWork = new TransactionCompleter(recoverySession, true);
-            xaFileSystem.startWork(commitWork);
+            workManager.startWork(commitWork);
         }
     }
 
     private void recoverHeavyWriteTransactionsForRollback() throws Exception {
+        WorkManager workManager = xaFileSystem.getWorkManager();
         for (TransactionInformation xid : heavyWriteTransactionsForRollback) {
             if (released) {
                 return;
             }
             NativeSession recoverySession = xaFileSystem.createRecoverySession(xid, null);
             TransactionCompleter rollbackWork = new TransactionCompleter(recoverySession, false);
-            xaFileSystem.startWork(rollbackWork);
+            workManager.startWork(rollbackWork);
         }
     }
 
@@ -299,7 +303,7 @@ public class CrashRecoveryWorker implements Work {
 
     private void updateTransactionsLatestCheckPoint(TransactionInformation xid, int checkPoint) {
         int currentLatestCheckPoint = getTransactionsLatestCheckPoint(xid);
-        if (currentLatestCheckPoint < checkPoint) {
+        if(currentLatestCheckPoint < checkPoint) {
             //as the multiple checkpoints from the same transaction could be spread across
             //txn-logs and we may not discover them in increasing order.
             transactionsLatestCheckPoint.put(xid, checkPoint);

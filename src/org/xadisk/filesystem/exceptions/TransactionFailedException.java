@@ -26,9 +26,11 @@ import org.xadisk.filesystem.TransactionInformation;
  *
  * @since 1.2.2
  */
+
 public class TransactionFailedException extends XASystemException {
 
     private static final long serialVersionUID = 1L;
+
     private byte[] transactionIdentifier;
 
     public TransactionFailedException(Throwable cause, TransactionInformation xid) {

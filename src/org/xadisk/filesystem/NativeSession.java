@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2014, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
  */
+
+
 package org.xadisk.filesystem;
 
 import org.xadisk.filesystem.pools.PooledBuffer;
@@ -42,7 +44,7 @@ import org.xadisk.filesystem.utilities.FileIOUtility;
 import org.xadisk.filesystem.utilities.MiscUtils;
 
 public class NativeSession implements SessionCommonness {
-
+    
     private final HashMap<File, Lock> allAcquiredLocks = new HashMap<File, Lock>(1000);
     private final ArrayList<NativeXAFileInputStream> allAcquiredInputStreams = new ArrayList<NativeXAFileInputStream>(5);
     private final ArrayList<NativeXAFileOutputStream> allAcquiredOutputStreams = new ArrayList<NativeXAFileOutputStream>(5);
@@ -389,7 +391,7 @@ public class NativeSession implements SessionCommonness {
             InterruptedException, NoTransactionAssociatedException {
         return fileExists(f, false);
     }
-
+    
     public boolean fileExists(File f, boolean lockExclusively) throws LockingFailedException,
             InsufficientPermissionOnFileException,
             InterruptedException, NoTransactionAssociatedException {
@@ -402,11 +404,11 @@ public class NativeSession implements SessionCommonness {
             if (!MiscUtils.isRootPath(f)) {
                 File parentDir = f.getParentFile();
                 newLock = acquireLockIfRequired(f, lockExclusively);
-                try {
-                    checkPermission(PermissionType.READ_DIRECTORY, parentDir);
-                } catch (FileNotExistsException fnee) {
-                    return false;
-                }
+				try {
+					checkPermission(PermissionType.READ_DIRECTORY, parentDir);
+				} catch(FileNotExistsException fnee) {
+					return false;
+				}
                 success = true;
                 return view.fileExists(f);
             } else {
@@ -432,7 +434,7 @@ public class NativeSession implements SessionCommonness {
             InterruptedException, NoTransactionAssociatedException {
         return fileExistsAndIsDirectory(f, false);
     }
-
+    
     public boolean fileExistsAndIsDirectory(File f, boolean lockExclusively) throws
             LockingFailedException, InsufficientPermissionOnFileException,
             InterruptedException, NoTransactionAssociatedException {
@@ -445,11 +447,11 @@ public class NativeSession implements SessionCommonness {
             if (!MiscUtils.isRootPath(f)) {
                 File parentDir = f.getParentFile();
                 newLock = acquireLockIfRequired(f, lockExclusively);
-                try {
-                    checkPermission(PermissionType.READ_DIRECTORY, parentDir);
-                } catch (FileNotExistsException fnee) {
-                    return false;
-                }
+				try {
+					checkPermission(PermissionType.READ_DIRECTORY, parentDir);
+				} catch(FileNotExistsException fnee) {
+					return false;
+				}
                 success = true;
                 return view.fileExistsAndIsDirectory(f);
             } else {
@@ -476,7 +478,7 @@ public class NativeSession implements SessionCommonness {
             InterruptedException, NoTransactionAssociatedException {
         return listFiles(f);
     }
-
+    
     public String[] listFiles(File f) throws FileNotExistsException, LockingFailedException,
             InsufficientPermissionOnFileException,
             InterruptedException, NoTransactionAssociatedException {
@@ -484,17 +486,13 @@ public class NativeSession implements SessionCommonness {
         try {
             asynchronousRollbackLock.lock();
             checkIfCanContinue();
-            if (!MiscUtils.isRootPath(f)) {
-                checkPermission(PermissionType.READ_DIRECTORY, f.getParentFile());
-                return view.listFiles(f);
-            } else {
-                return f.list();
-            }
+            checkPermission(PermissionType.READ_DIRECTORY, f.getParentFile());
+            return view.listFiles(f);
         } catch (XASystemException xase) {
             xaFileSystem.notifySystemFailure(xase);
             throw xase;
         } finally {
-            asynchronousRollbackLock.unlock();
+                asynchronousRollbackLock.unlock();
         }
     }
 
@@ -503,7 +501,7 @@ public class NativeSession implements SessionCommonness {
             InterruptedException, NoTransactionAssociatedException {
         return getFileLength(f, false);
     }
-
+    
     public long getFileLength(File f, boolean lockExclusively) throws FileNotExistsException, LockingFailedException,
             InsufficientPermissionOnFileException,
             InterruptedException, NoTransactionAssociatedException {
@@ -619,7 +617,7 @@ public class NativeSession implements SessionCommonness {
             checkIfCanContinue();
             if (onePhase) {
                 try {
-                    if (usingReadOnlyOptimization) {
+                    if(usingReadOnlyOptimization) {
                         completeReadOnlyTransaction();
                         return;
                     }
@@ -716,12 +714,12 @@ public class NativeSession implements SessionCommonness {
                             continue;
                         }
                         boolean isDirectoryMove = src.isDirectory();
-                        if (isDirectoryMove) {
+                        if(isDirectoryMove) {
                             declareCheckPoint(i - 2, srcFilesCopied, srcFilesMoved);
                             commitMove(logEntry);
                             declareCheckPoint(i - 2, srcFilesCopied, srcFilesMoved);
                         } else {
-                            if (!checkPointDuringModificationAgainstCopy(i - 2, src, srcFilesCopied, srcFilesMoved)) {
+                            if(!checkPointDuringModificationAgainstCopy(i - 2, src, srcFilesCopied, srcFilesMoved)) {
                                 checkPointDuringCreationAgainstMove(i - 2, dest, srcFilesCopied, srcFilesMoved);
                             }
                             commitFileMove(logEntry, srcFilesMoved);
@@ -736,14 +734,14 @@ public class NativeSession implements SessionCommonness {
                     } else if (logEntry.getOperationType() == TransactionLogEntry.FILE_SPECIAL_MOVE) {
                         File src = new File(logEntry.getFileName());
                         File dest = new File(logEntry.getDestFileName());
-                        if (!checkPointDuringModificationAgainstCopy(i - 2, src, srcFilesCopied, srcFilesMoved)) {
+                        if(!checkPointDuringModificationAgainstCopy(i - 2, src, srcFilesCopied, srcFilesMoved)) {
                             checkPointDuringCreationAgainstMove(i - 2, dest, srcFilesCopied, srcFilesMoved);
                         }
                         commitFileSpecialMove(logEntry, srcFilesMoved);
                     }
-                } catch (XASystemIOException xasioe) {
+                } catch(XASystemIOException xasioe) {
                     throw (IOException) xasioe.getCause();
-                } catch (IOException ioe) {
+                } catch(IOException ioe) {
                     //all these ioexceptions will be transaction specific (file_append just
                     //reads from the txn-log) and so would not affect the system.
                     xaFileSystem.notifyTransactionFailure(xid);
@@ -752,7 +750,7 @@ public class NativeSession implements SessionCommonness {
             }
             diskSession.forceToDisk();
             xaFileSystem.getTheGatheringDiskWriter().transactionCompletes(xid, true);
-            for (FileInputStream logInputStream : logInputStreams) {
+            for(FileInputStream logInputStream: logInputStreams) {
                 MiscUtils.closeAll(logInputStream);
                 //need to close logs here to allow cleanup of logs in crashRecoveryWorker.
             }
@@ -762,7 +760,7 @@ public class NativeSession implements SessionCommonness {
         } catch (IOException ioe) {
             xaFileSystem.notifySystemFailure(ioe);
         } finally {
-            for (FileInputStream logInputStream : logInputStreams) {
+            for(FileInputStream logInputStream: logInputStreams) {
                 MiscUtils.closeAll(logInputStream);
             }
             asynchronousRollbackLock.unlock();
@@ -771,7 +769,7 @@ public class NativeSession implements SessionCommonness {
 
     private boolean checkPointDuringModificationAgainstCopy(int currentLogPosition, File fileBeingModified,
             HashSet<File> srcFilesCopied, HashSet<File> srcFilesMoved) throws IOException {
-        if (srcFilesCopied.contains(fileBeingModified)) {
+        if(srcFilesCopied.contains(fileBeingModified)) {
             declareCheckPoint(currentLogPosition, srcFilesCopied, srcFilesMoved);
             return true;
         }
@@ -780,7 +778,7 @@ public class NativeSession implements SessionCommonness {
 
     private boolean checkPointDuringCreationAgainstMove(int currentLogPosition, File fileBeingCreated,
             HashSet<File> srcFilesCopied, HashSet<File> srcFilesMoved) throws IOException {
-        if (srcFilesMoved.contains(fileBeingCreated)) {
+        if(srcFilesMoved.contains(fileBeingCreated)) {
             declareCheckPoint(currentLogPosition, srcFilesCopied, srcFilesMoved);
             return true;
         }
@@ -791,17 +789,17 @@ public class NativeSession implements SessionCommonness {
         diskSession.forceToDisk();
         try {
             ByteBuffer logEntryBytes = ByteBuffer.wrap(TransactionLogEntry.getLogEntry(xid, currentLogPosition));
-            xaFileSystem.getTheGatheringDiskWriter().forceLog(xid, logEntryBytes);
-        } catch (IOException ioe) {
+            xaFileSystem.getTheGatheringDiskWriter().forceLog(logEntryBytes);
+        } catch(IOException ioe) {
             throw new XASystemIOException(ioe);
         }
         srcFilesMoved.clear();
         srcFilesCopied.clear();
     }
-
+    
     public void completeReadOnlyTransaction() throws NoTransactionAssociatedException {
         //would be called both for commit and rollbacck of a read-only txn.
-        if (!usingReadOnlyOptimization) {
+        if(!usingReadOnlyOptimization) {
             throw new IllegalStateException("Read-only optimization is not being used.");
         }
         try {
@@ -820,13 +818,13 @@ public class NativeSession implements SessionCommonness {
         try {
             asynchronousRollbackLock.lock();
             cleanup();
-        } catch (IOException ioe) {
+        } catch(IOException ioe) {
             xaFileSystem.notifySystemFailure(ioe);
         } finally {
             asynchronousRollbackLock.unlock();
         }
     }
-
+    
     private void commitFileAppend(TransactionLogEntry logEntry, ByteBuffer inMemoryLogEntry,
             FileChannel logReaderChannel, int logFileIndex, long localPosition)
             throws IOException {
@@ -869,11 +867,11 @@ public class NativeSession implements SessionCommonness {
         if (f.exists()) {
             try {
                 diskSession.deleteFile(f);
-            } catch (IOException ioe) {
-                if (f.isDirectory()) {
-                    if (f.list().length != 0) {
-                        for (File file : filesDirectlyWrittenToDisk) {
-                            if (file.getParentFile().equals(f)) {
+            } catch(IOException ioe) {
+                if(f.isDirectory()) {
+                    if(f.list().length!=0) {
+                        for(File file: filesDirectlyWrittenToDisk) {
+                            if(file.getParentFile().equals(f)) {
                                 return;
                                 //bug#132 (see testcase there). For a file written in heavyWrite mode,
                                 //we ignore general io-operations for that file. though such a management
@@ -900,7 +898,7 @@ public class NativeSession implements SessionCommonness {
     private void commitCreateDir(String fileName) throws IOException {
         File f = new File(fileName);
         if (f.exists()) {
-            return;
+			return;
         }
         diskSession.createDirectory(f);
     }
@@ -977,11 +975,11 @@ public class NativeSession implements SessionCommonness {
             asynchronousRollbackLock.lock();
             checkIfCanContinue();
 
-            if (usingReadOnlyOptimization) {
+            if(usingReadOnlyOptimization) {
                 completeReadOnlyTransaction();
                 return;
             }
-
+            
             releaseAllStreams();
 
             ArrayList<Long> logPositions;
@@ -997,8 +995,6 @@ public class NativeSession implements SessionCommonness {
                 }
                 logPositions = this.transactionLogPositions;
             }
-
-            xaFileSystem.getTheGatheringDiskWriter().transactionRollbackBegins(xid);
 
             Buffer inMemoryLog;
             for (int i = logPositions.size() - 2; i >= 0; i -= 2) {
@@ -1053,7 +1049,7 @@ public class NativeSession implements SessionCommonness {
                         fc.truncate(logEntry.getNewLength());
                         fc.force(false);//the file length may be part of meta-data (not sure). Make "true"?
                     }
-                } catch (IOException ioe) {
+                } catch(IOException ioe) {
                     //all these ioexceptions will be transaction specific (file_append just
                     //reads from the txn-log) and so would not affect the system.
                     xaFileSystem.notifyTransactionFailure(xid);
@@ -1063,7 +1059,7 @@ public class NativeSession implements SessionCommonness {
                 }
             }
             xaFileSystem.getTheGatheringDiskWriter().transactionCompletes(xid, false);
-            for (FileInputStream logInputStream : logInputStreams) {
+            for(FileInputStream logInputStream: logInputStreams) {
                 MiscUtils.closeAll(logInputStream);
                 //need to close logs here to allow cleanup of logs in crashRecoveryWorker.
             }
@@ -1072,7 +1068,7 @@ public class NativeSession implements SessionCommonness {
         } catch (IOException ioe) {
             xaFileSystem.notifySystemFailure(ioe);
         } finally {
-            for (FileInputStream logInputStream : logInputStreams) {
+            for(FileInputStream logInputStream: logInputStreams) {
                 MiscUtils.closeAll(logInputStream);
             }
             asynchronousRollbackLock.unlock();
@@ -1100,9 +1096,8 @@ public class NativeSession implements SessionCommonness {
             concurrencyControl.releaseRenamePinOnDirectories(directoriesPinnedInThisSession);
         }
 
-        if (concurrencyControl instanceof RemoteConcurrencyControl) {
+        if(concurrencyControl instanceof RemoteConcurrencyControl)
             concurrencyControl.shutdown();
-        }
 
         for (Buffer buffer : transactionInMemoryBuffers) {
             if (buffer instanceof PooledBuffer) {
@@ -1140,7 +1135,7 @@ public class NativeSession implements SessionCommonness {
     }
 
     private void checkPermission(PermissionType operation, File f) throws FileNotExistsException,
-            InsufficientPermissionOnFileException {
+			InsufficientPermissionOnFileException {
         switch (operation) {
             case READ_FILE:
                 if (view.isNormalFileReadable(f)) {
@@ -1172,13 +1167,13 @@ public class NativeSession implements SessionCommonness {
         if (!alreadyHaveALock(f, exclusive)) {
             try {
                 newLock = concurrencyControl.acquireFileLock(xid, f, fileLockWaitTimeout, exclusive);
-                if (exclusive) {
+                if(exclusive) {
                     xid.incrementNumOwnedExclusiveLocks();
                 }
-            } catch (DeadLockVictimizedException dlve) {
+            } catch(DeadLockVictimizedException dlve) {
                 rollbackPrematurely(dlve);
                 throw new TransactionRolledbackException(dlve);
-            } catch (TransactionTimeoutException tte) {
+            } catch(TransactionTimeoutException tte) {
                 rollbackPrematurely(tte);
                 throw new TransactionRolledbackException(tte);
             }
@@ -1201,13 +1196,13 @@ public class NativeSession implements SessionCommonness {
 
     private void checkValidParent(File f) throws FileNotExistsException {
         if (f.getParentFile() == null) {
-            throw new FileNotExistsException("{Parent directory of (" + f.getAbsolutePath() + ")}");
+            throw new FileNotExistsException(f.getParentFile().getAbsolutePath());
         }
     }
 
     private void releaseLocks(Lock locks[]) {
         for (Lock lock : locks) {
-            if (lock != null) {
+            if(lock != null) {
                 allAcquiredLocks.remove(lock.getResource());
                 concurrencyControl.releaseLock(xid, lock);
             }
@@ -1215,7 +1210,7 @@ public class NativeSession implements SessionCommonness {
     }
 
     private void releaseLocks(Lock lock) {
-        if (lock != null) {
+        if(lock != null) {
             allAcquiredLocks.remove(lock.getResource());
             concurrencyControl.releaseLock(xid, lock);
         }
@@ -1230,7 +1225,7 @@ public class NativeSession implements SessionCommonness {
     }
 
     public void checkIfCanContinue() throws NoTransactionAssociatedException {
-        if (operationsCanContinue) {
+        if(operationsCanContinue) {
             return;
         } else {
             if (rolledbackPrematurely) {
@@ -1242,7 +1237,7 @@ public class NativeSession implements SessionCommonness {
             if (systemHasFailed) {
                 throw new XASystemNoMoreAvailableException(systemFailureCause);
             }
-            if (systemGotShutdown) {
+            if(systemGotShutdown) {
                 throw new XASystemNoMoreAvailableException();
             }
         }
@@ -1251,7 +1246,7 @@ public class NativeSession implements SessionCommonness {
     public void declareTransactionUsingUndoLogs() throws IOException {
         ByteBuffer logEntryBytes = ByteBuffer.wrap(TransactionLogEntry.getLogEntry(xid,
                 TransactionLogEntry.TXN_USES_UNDO_LOGS));
-        xaFileSystem.getTheGatheringDiskWriter().forceLog(xid, logEntryBytes);
+        xaFileSystem.getTheGatheringDiskWriter().forceLog(logEntryBytes);
     }
 
     public long getTimeOfEntryToTransaction() {

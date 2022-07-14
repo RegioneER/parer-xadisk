@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem;
 
 import java.util.ArrayList;
@@ -38,14 +40,16 @@ public class ResourceDependencyGraph {
     }
 
     /*public Node generateNodeForTesting() {
-     Node n = new Node(nodes.size(), 0);
-     nodes.put(XidImpl.getXidInstanceForLocalTransaction(nodes.size()), n);
-     return n;
-     }*/
+    Node n = new Node(nodes.size(), 0);
+    nodes.put(XidImpl.getXidInstanceForLocalTransaction(nodes.size()), n);
+    return n;
+    }*/
+    
     public static class Node {
-
+        
         public static final byte INTERRUPTED_DUE_TO_DEADLOCK = 1;
         public static final byte INTERRUPTED_DUE_TO_TIMEOUT = 2;
+    
         private final TransactionInformation id;
         private final ArrayList<Node> neighbors = new ArrayList<Node>(10);
         private final Thread threadWaitingForLock;
@@ -53,6 +57,7 @@ public class ResourceDependencyGraph {
         private final Object interruptFlagLock = new ArrayList<Object>(0);//making it transient means it would be seen as null
         //in the remote xadisk, and was giving NPE. We also made this String as Object is not serializable. Doesn't
         //matter what is the actual Object anyway.
+    
         private int mark;
         private int prepostVisit[] = new int[2];
         private Node parent = null;
@@ -69,7 +74,7 @@ public class ResourceDependencyGraph {
         public void addNeighbor(Node n) {
             neighbors.add(n);
         }
-
+        
         public ArrayList<Node> getNeighbors() {
             return neighbors;
         }
@@ -130,7 +135,7 @@ public class ResourceDependencyGraph {
         void setResourceWaitingFor(NativeLock resourceWaitingFor) {
             this.resourceWaitingFor = resourceWaitingFor;
         }
-
+        
         public NativeLock getResourceWaitingFor() {
             return resourceWaitingFor;
         }

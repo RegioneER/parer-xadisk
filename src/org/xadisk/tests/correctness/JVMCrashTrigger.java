@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.tests.correctness;
 
 import com.sun.jdi.Method;
@@ -140,14 +142,14 @@ public class JVMCrashTrigger implements Runnable {
     }
 
     /*private void refreshStepRequest() {
-     if (erManager.stepRequests().size() > 0) {
-     erManager.deleteEventRequest(erManager.stepRequests().get(0));
-     }
-     StepRequest stepRequest = erManager.createStepRequest(
-     mainThread, StepRequest.STEP_LINE, StepRequest.STEP_OVER);
-     stepRequest.setSuspendPolicy(EventRequest.SUSPEND_ALL);
-     //stepRequest.addClassFilter(null);//what to do here for more than one interesting classes??
-     //why no threadFilter can be added to StepRequest??
-     stepRequest.enable();
-     }*/
+        if (erManager.stepRequests().size() > 0) {
+            erManager.deleteEventRequest(erManager.stepRequests().get(0));
+        }
+        StepRequest stepRequest = erManager.createStepRequest(
+                mainThread, StepRequest.STEP_LINE, StepRequest.STEP_OVER);
+        stepRequest.setSuspendPolicy(EventRequest.SUSPEND_ALL);
+        //stepRequest.addClassFilter(null);//what to do here for more than one interesting classes??
+        //why no threadFilter can be added to StepRequest??
+        stepRequest.enable();
+    }*/
 }

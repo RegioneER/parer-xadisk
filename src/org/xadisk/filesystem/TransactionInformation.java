@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem;
 
 import java.io.Serializable;
@@ -15,10 +17,12 @@ import org.xadisk.filesystem.ResourceDependencyGraph.Node;
 public class TransactionInformation implements Xid, Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     private final byte[] gid;
     private final byte[] bqual;
     private final int formatId;
     private int numOwnedExclusiveLocks = 0;
+    
     private transient volatile ResourceDependencyGraph.Node nodeInResourceDependencyGraph = null;
     private transient NativeSession owningSession;
 
@@ -136,21 +140,21 @@ public class TransactionInformation implements Xid, Serializable {
     public int getNumOwnedExclusiveLocks() {
         return numOwnedExclusiveLocks;
     }
-
+    
     public void incrementNumOwnedExclusiveLocks() {
         this.numOwnedExclusiveLocks++;
     }
 
     @Override
     public String toString() {
-        return "gid : \t" + getHexString(gid) + "\n"
-                + "bqual : \t" + getHexString(bqual) + "\n"
-                + "formatId : \t" + Integer.toHexString(formatId);
+        return "gid : \t" + getHexString(gid) + "\n" +
+                "bqual : \t" + getHexString(bqual) + "\n" +
+                "formatId : \t" + Integer.toHexString(formatId);
     }
 
     private String getHexString(byte[] bs) {
         StringBuilder sb = new StringBuilder();
-        for (byte b : bs) {
+        for(byte b : bs) {
             sb.append(Integer.toHexString(b)).append(" ");
         }
         return sb.toString();

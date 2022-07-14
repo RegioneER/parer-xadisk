@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.bridge.proxies.interfaces;
 
 import java.io.File;
@@ -29,6 +31,7 @@ import org.xadisk.filesystem.exceptions.NoTransactionAssociatedException;
  *
  * @since 1.0
  */
+
 public interface XADiskBasicIOOperations {
 
     /**
@@ -37,8 +40,8 @@ public interface XADiskBasicIOOperations {
      *
      * @since 1.0
      */
+    
     public enum PermissionType {
-
         /**
          * Represents read permission over a file.
          */
@@ -56,7 +59,7 @@ public interface XADiskBasicIOOperations {
          */
         WRITE_DIRECTORY
     };
-
+    
     /**
      * Sets the values of publishFileStateChangeEventsOnCommit.
      * <p> This property can be used to control whether the commit of the transaction on this object
@@ -96,7 +99,7 @@ public interface XADiskBasicIOOperations {
      * @param fileLockWaitTimeout the new lock wait timeout, in milliseconds.
      */
     public void setFileLockWaitTimeout(long fileLockWaitTimeout);
-
+    
     /**
      * Creates an input stream to the file.
      * This stream can be further be wrapped by a utility class {@link XAFileInputStreamWrapper} to
@@ -156,7 +159,7 @@ public interface XADiskBasicIOOperations {
     public XAFileOutputStream createXAFileOutputStream(File f, boolean heavyWrite) throws
             FileNotExistsException, FileUnderUseException, InsufficientPermissionOnFileException, LockingFailedException,
             NoTransactionAssociatedException, InterruptedException;
-
+    
     /**
      * Create a new file or directory.
      * @param f the file or directory to create.

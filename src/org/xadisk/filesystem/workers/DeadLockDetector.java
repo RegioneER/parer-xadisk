@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem.workers;
 
 import java.util.ArrayList;
@@ -73,7 +75,7 @@ public class DeadLockDetector extends TimedWorker {
             }
             for (int j = 0; j < holders.length; j++) {
                 ResourceDependencyGraph.Node neighbor;
-                if (holders[j] instanceof RemoteTransactionInformation) {
+                if(holders[j] instanceof RemoteTransactionInformation) {
                     neighbor = rdg.getNode(holders[j]);
                 } else {
                     neighbor = holders[j].getNodeInResourceDependencyGraph();
@@ -127,8 +129,8 @@ public class DeadLockDetector extends TimedWorker {
     }
 
     private void detectBackEdge(ResourceDependencyGraph.Node source, ResourceDependencyGraph.Node target) {
-        if (target.getPrepostVisit()[0] < source.getPrepostVisit()[0]
-                && target.getPrepostVisit()[1] == 0) {
+        if (target.getPrepostVisit()[0] < source.getPrepostVisit()[0] &&
+                target.getPrepostVisit()[1] == 0) {
             backEdges.add(source);
             backEdges.add(target);
             return;

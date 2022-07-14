@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.tests.correctness;
 
 import com.sun.jdi.Bootstrap;
@@ -103,7 +105,7 @@ public class TestCoreXAFileSystem {
             configuration.setServerAddress("localhost");
             configuration.setServerPort(Configuration.getNextServerPort());
             configuration.setEnableRemoteInvocations(true);
-            if (postCrash) {
+            if(postCrash) {
                 //the cleanup of xadisk system dir was failing due to the loaded native-lib from the system dir.
                 configuration.setSynchronizeDirectoryChanges(false);
             }
@@ -122,7 +124,7 @@ public class TestCoreXAFileSystem {
                     if (testName.name().contains("Crash") && postCrash
                             || !testName.name().contains("Crash") && !postCrash) {
                         String testDirectory = testName.toString();
-                        if (postCrash) {
+                        if(postCrash) {
                             testDirectory = testDirectory.substring(0, testDirectory.length() - 9);
                         }
                         tests[threadIndex++] = new Thread(new RunnableTest(testName,
@@ -130,9 +132,8 @@ public class TestCoreXAFileSystem {
                     }
                 }
                 for (int i = 0; i < 4; i++) {
-                    if (i != 0) {
+                    if(i != 0)
                         continue;
-                    }
                     tests[i].setName(transactionDemarcatingThread);
                     tests[i].start();
                     allThreads.add(tests[i]);
@@ -141,7 +142,7 @@ public class TestCoreXAFileSystem {
             TestUtility.waitForAllAtHeaven(allThreads);
             System.out.println("Testing threads completed...Will shutdown the NativeXAFS now.");
             XAFileSystemProxy.getNativeXAFileSystemReference("local").shutdown();
-
+            
         } catch (Throwable t) {
             t.printStackTrace();
         }

@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk http://xadisk.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk http://xadisk.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
  */
+
+
 package org.xadisk.examples;
 
 import java.io.File;
@@ -62,10 +64,10 @@ public class StandaloneXA {
 
             System.out.println("Enlisting other XA-enabled resources (e.g. Oracle, MQ) in the XA transaction.\n");
             /*XAResource xarOracle = null;
-             tx1.enlistResource(xarOracle);*/
+            tx1.enlistResource(xarOracle);*/
 
             /*XAResource xarMQ = null;
-             tx1.enlistResource(xarMQ);*/
+            tx1.enlistResource(xarMQ);*/
 
             System.out.println("Performing transactional work over XADisk and other involved resources (e.g. Oracle, MQ)\n");
             xaSession.createFile(new File(testFile), false);

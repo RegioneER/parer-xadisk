@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.bridge.proxies.interfaces;
 
 import org.xadisk.bridge.proxies.impl.RemoteXAFileSystem;
@@ -20,6 +22,7 @@ import org.xadisk.filesystem.standalone.StandaloneFileSystemConfiguration;
  *
  * @since 1.0
  */
+
 public abstract class XAFileSystemProxy {
 
     /**
@@ -47,9 +50,9 @@ public abstract class XAFileSystemProxy {
     /**
      * If an application wants to connect to an XADisk instance running on a remote
      * JVM, it can call this method.
-     * Such reference to remote XADisk instance and all of the subsequently derived
-     * {@link Session} objects share a common communication channel with the remote
-     * XADisk instance, and hence cannot be used by multiple threads.
+	 * Such reference to remote XADisk instance and all of the subsequently derived
+	 * {@link Session} objects share a common communication channel with the remote
+	 * XADisk instance, and hence cannot be used by multiple threads.
      * @param serverAddres the network address/name of the remote machine on which the
      * XADisk instance is running.
      * @param serverPort the network port of the remote machine on which the XADisk

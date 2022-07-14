@@ -1,14 +1,15 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
 
 /*
  * Many Thanks to Jasper Siepkes for suggesting the bug fix for
  * https://java.net/jira/browse/XADISK-140
- */
+*/
+
 package org.xadisk.bridge.server;
 
 import org.xadisk.bridge.server.conversation.ConversationGateway;
@@ -23,7 +24,7 @@ import javax.resource.spi.work.WorkException;
 import org.xadisk.filesystem.NativeXAFileSystem;
 
 public class PointOfContact implements Work {
-
+    
     private final ServerSocket serverSocket;
     private final ServerSocketChannel serverSocketChannel;
     private volatile boolean enabled = true;

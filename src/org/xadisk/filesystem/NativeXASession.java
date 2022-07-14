@@ -1,9 +1,10 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
 package org.xadisk.filesystem;
 
 import java.io.File;
@@ -24,7 +25,7 @@ import org.xadisk.filesystem.exceptions.LockingFailedException;
 import org.xadisk.filesystem.exceptions.NoTransactionAssociatedException;
 
 public class NativeXASession implements XASession {
-
+    
     private volatile Session sessionOfXATransaction;
     private volatile Session sessionOfLocalTransaction;
     private volatile XAResourceImpl xaResourceImpl;
@@ -162,7 +163,7 @@ public class NativeXASession implements XASession {
     public long getFileLockWaitTimeout() {
         try {
             return getSessionForCurrentWorkAssociation().getFileLockWaitTimeout();
-        } catch (NoTransactionAssociatedException ntae) {
+        } catch(NoTransactionAssociatedException ntae) {
             return -1;
         }
     }
@@ -184,7 +185,7 @@ public class NativeXASession implements XASession {
     public void setFileLockWaitTimeout(long fileLockWaitTimeout) {
         try {
             getSessionForCurrentWorkAssociation().setFileLockWaitTimeout(fileLockWaitTimeout);
-        } catch (NoTransactionAssociatedException ntae) {
+        } catch(NoTransactionAssociatedException ntae) {
         }
     }
 

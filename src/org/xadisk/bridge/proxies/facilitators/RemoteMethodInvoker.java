@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.bridge.proxies.facilitators;
 
 import java.io.BufferedInputStream;
@@ -39,9 +41,10 @@ public class RemoteMethodInvoker implements Serializable {
      * Not overriding clone. The javaDoc says : "By convention, the returned object
      * should be obtained by calling super.clone". As we are not doing that, so we
      * won't "occupy/defame" the clone() method.
-     public Object clone() throws CloneNotSupportedException {
-     return new RemoteMethodInvoker(serverAddress, serverPort);
-     }*/
+    public Object clone() throws CloneNotSupportedException {
+        return new RemoteMethodInvoker(serverAddress, serverPort);
+    }*/
+
     public RemoteMethodInvoker makeCopy() {
         return new RemoteMethodInvoker(serverAddress, serverPort);
     }
@@ -92,7 +95,7 @@ public class RemoteMethodInvoker implements Serializable {
 
             byte[] toSend = baos.toByteArray();
             int lengthOfInvocation = toSend.length;
-
+            
             OutputStream socketOS = new BufferedOutputStream(
                     socket.getOutputStream(), 1024);
             socketOS.write(getDataOutputCompliantBytesFromInteger(lengthOfInvocation));

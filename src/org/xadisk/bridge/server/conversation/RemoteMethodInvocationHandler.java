@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.bridge.server.conversation;
 
 import org.xadisk.filesystem.pools.PooledSelector;
@@ -163,7 +165,7 @@ public class RemoteMethodInvocationHandler implements Work {
     private void processMethodArguments(Object args[], Class argTypes[], ArrayList<OptimizedRemoteReference> remoteReferences,
             ArrayList<Object> regenerateObjects) throws IOException {
         for (int i = 0; i < args.length; i++) {
-            if (xaFileSystem.getHandleGeneralRemoteInvocations()) {
+            if(xaFileSystem.getHandleGeneralRemoteInvocations()) {
                 if (args[i] instanceof OptimizedRemoteReference) {
                     OptimizedRemoteReference remoteRef = (OptimizedRemoteReference) args[i];
                     args[i] = remoteRef.regenerateRemoteObject();
@@ -176,12 +178,12 @@ public class RemoteMethodInvocationHandler implements Work {
                     argTypes[i] = Method.class;
                 }
             }
-            if (xaFileSystem.getHandleClusterRemoteInvocations()) {
+            if(xaFileSystem.getHandleClusterRemoteInvocations()) {
                 if (args[i] instanceof RemoteLock) {
-                    RemoteLock remoteLock = (RemoteLock) args[i];
-                    args[i] = context.getLocalObjectFromProxy(remoteLock.getRemoteObjectId());
-                    argTypes[i] = args[i].getClass();
-                }
+					RemoteLock remoteLock = (RemoteLock) args[i];
+					args[i] = context.getLocalObjectFromProxy(remoteLock.getRemoteObjectId());
+					argTypes[i] = args[i].getClass();
+				}
             }
             argTypes[i] = getSpecificClassTypeIfRequired(args[i]);
             argTypes[i] = getPrimitiveClassIfRequired(argTypes[i]);
@@ -190,28 +192,28 @@ public class RemoteMethodInvocationHandler implements Work {
 
     private void processOptimizedRemoteReferences(Object response, ArrayList<OptimizedRemoteReference> remoteReferences,
             ArrayList<Object> regenerateObjects) {
-        if (xaFileSystem.getHandleGeneralRemoteInvocations()) {
+        if(xaFileSystem.getHandleGeneralRemoteInvocations()) {
             for (int i = 0; i < remoteReferences.size(); i++) {
                 OptimizedRemoteReference ref = remoteReferences.get(i);
                 if (ref instanceof ByteArrayRemoteReference) {
                     ByteArrayRemoteReference barr = (ByteArrayRemoteReference) ref;
                     Integer bytesGotUpdated = (Integer) response;
-                    if (bytesGotUpdated == -1) {
-                        barr.setResultObject(null);
-                    } else {
-                        byte[] inputArgument = (byte[]) regenerateObjects.get(i);
-                        byte[] minimalToSend = new byte[bytesGotUpdated];
-                        System.arraycopy(inputArgument, 0, minimalToSend, 0, bytesGotUpdated);
-                        barr.setResultObject(minimalToSend);
-                    }
+					if(bytesGotUpdated == -1) {
+						barr.setResultObject(null);
+					} else {
+						byte[] inputArgument = (byte[]) regenerateObjects.get(i);
+						byte[] minimalToSend = new byte[bytesGotUpdated];
+						System.arraycopy(inputArgument, 0, minimalToSend, 0, bytesGotUpdated);
+						barr.setResultObject(minimalToSend);
+					}
                 }
             }
         }
     }
-
+    
     private void postInvocation(Object targetObject, Method method) throws NoSuchMethodException {
-        if (xaFileSystem.getHandleGeneralRemoteInvocations()) {
-            if (method.equals(MessageEndpoint.class.getMethod("release", new Class[0]))) {
+        if(xaFileSystem.getHandleGeneralRemoteInvocations()) {
+            if(method.equals(MessageEndpoint.class.getMethod("release", new Class[0]))) {
                 HostedContext globalCallbackContext = xaFileSystem.getGlobalCallbackContext();
                 globalCallbackContext.deHostObject(targetObject);
             }
@@ -257,25 +259,25 @@ public class RemoteMethodInvocationHandler implements Work {
         //this was to do avoid a strange/unexpected error saying NoSuchMethodException in cases
         //when the parameter-type (during method invocation via reflection) was specified as an
         //implementing class name instead of the interface.
-        if (xaFileSystem.getHandleGeneralRemoteInvocations()) {
+        if(xaFileSystem.getHandleGeneralRemoteInvocations()) {
             if (obj instanceof XAResource) {
                 return XAResource.class;
             }
             if (obj instanceof Xid) {
-                if (obj instanceof RemoteTransactionInformation) {
+                if(obj instanceof RemoteTransactionInformation) {
                     return TransactionInformation.class;
                 }
                 return Xid.class;
             }
-            if (obj instanceof DirectoryModificationEvent) {
-                return FileSystemStateChangeEvent.class;
-            }
+			if(obj instanceof DirectoryModificationEvent) {
+				return FileSystemStateChangeEvent.class;
+			}
         }
-        if (xaFileSystem.getHandleClusterRemoteInvocations()) {
+        if(xaFileSystem.getHandleClusterRemoteInvocations()) {
             if (obj instanceof Lock) {
                 return Lock.class;
             }
-            if (obj instanceof RemoteTransactionInformation) {
+            if(obj instanceof RemoteTransactionInformation) {
                 return TransactionInformation.class;
             }
         }

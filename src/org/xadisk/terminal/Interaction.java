@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.terminal;
 
 import java.io.BufferedReader;
@@ -85,7 +87,7 @@ public class Interaction {
     }
 
     private static String normalizeInput(String s) {
-        if (s == null) {
+        if(s == null) {
             return "";
         }
         return s.trim();
@@ -236,7 +238,7 @@ public class Interaction {
         } else if (args[0].equalsIgnoreCase("commit")) {
             assertArgumentsCount(args, 1);
             assertSession();
-            ((SessionCommonness) session).commit(true);
+            ((SessionCommonness)session).commit(true);
             session = null;
         } else if (args[0].equalsIgnoreCase("rollback")) {
             assertArgumentsCount(args, 1);

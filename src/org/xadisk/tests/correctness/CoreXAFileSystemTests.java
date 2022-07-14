@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.tests.correctness;
 
 import java.io.File;
@@ -26,18 +28,16 @@ import org.xadisk.filesystem.XAFileSystemCommonness;
 
 public class CoreXAFileSystemTests {
 
-    static enum testNames {
-
-        testIOOperations, testIOOperationsPostCrash, testDynamicReadWrite,
+    static enum testNames {testIOOperations, testIOOperationsPostCrash, testDynamicReadWrite,
         testDynamicReadWritePostCrash, testConcurrentMoneyTransfer, testConcurrentMoneyTransferPostCrash,
-        testFileSystemEventing, testFileSystemEventingPostCrash
-    };
+        testFileSystemEventing, testFileSystemEventingPostCrash};
     private static final String SEPERATOR = File.separator;
     static Object namesake = new CoreXAFileSystemTests();
     static boolean testProgressive = false;
     static boolean testHighNumber = false;
     static boolean usePessimisticLock = true;
     static final int initialFileSizeForDynamicRWTest = 100000;
+    
     private Session ioOperationsSession;
     private File ioOperationsRoot1;
     private File ioOperationsRoot2;
@@ -211,7 +211,7 @@ public class CoreXAFileSystemTests {
             TestUtility.compareDiskAndDisk(baseForRollbackRoot, ioOperationsRoot1);
         } else {
             System.out.println("Committing...");
-            ((SessionCommonness) ioOperationsSession).commit(true);
+            ((SessionCommonness)ioOperationsSession).commit(true);
             TestUtility.compareDiskAndDisk(ioOperationsRoot2, ioOperationsRoot1);
         }
         System.out.println("Done.");
@@ -232,7 +232,7 @@ public class CoreXAFileSystemTests {
                 //no need for view verification in rollback case; we just need to do it in either place.
                 TestUtility.compareDiskAndView(ioOperationsRoot2, ioOperationsRoot1, ioOperationsSession);
                 System.out.println("Committing...");
-                ((SessionCommonness) ioOperationsSession).commit(true);
+                ((SessionCommonness)ioOperationsSession).commit(true);
                 resetIOOperationsSession();
                 TestUtility.compareDiskAndDisk(ioOperationsRoot2, ioOperationsRoot1);
             }
@@ -313,7 +313,7 @@ public class CoreXAFileSystemTests {
             for (long i = 0; i < currentViewFileSize / 100000; i++) {
                 long position = randomPosition.nextInt((int) currentViewFileSize - 1);
                 xisSource1.position(position);
-                byte b[] = new byte[1];
+				byte b[] = new byte[1];
                 xisSource1.read(b);
                 if (b[0] != position % modulo) {
                     throw new Exception("Testcase testDynamicReadWrite failed for position : " + position);
@@ -321,7 +321,7 @@ public class CoreXAFileSystemTests {
             }
         }
         fosSource2.flush();
-        ((SessionCommonness) session).commit(true);
+        ((SessionCommonness)session).commit(true);
 
         TestUtility.compareDiskAndDisk(fileRoot2, fileRoot1);
     }
@@ -424,7 +424,7 @@ public class CoreXAFileSystemTests {
         xosPoor.close();
         xosRich.close();
 
-        ((SessionCommonness) session).commit(true);
+        ((SessionCommonness)session).commit(true);
     }
 
     private void verifyMoneyTransfersPostAllCommit(File rich, File poor) throws Exception {
@@ -477,7 +477,7 @@ public class CoreXAFileSystemTests {
         session.createFile(interestingFiles[0], false);
         session.copyFile(interestingFiles[0], interestingFiles[1]);
         session.deleteFile(interestingFiles[0]);
-        ((SessionCommonness) session).commit(true);
+        ((SessionCommonness)session).commit(true);
 
         while (smef.getEventsReceivedCount() < 5) {
             System.out.println("Not all events recevied yet. Receieved : " + smef.getEventsReceivedCount());

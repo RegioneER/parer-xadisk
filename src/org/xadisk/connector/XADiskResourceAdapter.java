@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.connector;
 
 import org.xadisk.connector.inbound.EndPointActivation;
@@ -79,7 +81,7 @@ public class XADiskResourceAdapter extends FileSystemConfiguration implements Re
             }
         } catch (IOException ioe) {
             /* JCA Spec : "Any exception thrown by the endpointDeactivation method call must be
-             ignored. After this method call the endpoint is deemed inactive." */
+            ignored. After this method call the endpoint is deemed inactive." */
             ioe.printStackTrace();
         }
     }

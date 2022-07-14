@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2014, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.connector.inbound;
 
 import java.io.IOException;
@@ -84,7 +86,7 @@ public class LocalEventProcessingXAResource implements XAResource {
             events.add(eventForTransaction);
             ByteBuffer logEntryBytes = ByteBuffer.wrap(TransactionLogEntry.getLogEntry(xidImpl, events,
                     TransactionLogEntry.EVENT_DEQUEUE));
-            xaFileSystem.getTheGatheringDiskWriter().forceLog(xidImpl, logEntryBytes);
+            xaFileSystem.getTheGatheringDiskWriter().forceLog(logEntryBytes);
             xaFileSystem.getTheGatheringDiskWriter().transactionCompletes(xidImpl, true);
             if (isCreatedForRecovery) {
                 xaFileSystem.getRecoveryWorker().cleanupTransactionInfo(xidImpl);
