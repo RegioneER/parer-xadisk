@@ -198,6 +198,7 @@ public class GatheringDiskWriter extends EventWorker {
 
     public void submitBuffer(Buffer logEntry, TransactionInformation xid) {
         logEntry.flushByteBufferChanges();
+        int bufferSizeToAdd = logEntry.getBuffer().remaining();
         ConcurrentLinkedQueue<Buffer> txnBuffers = transactionSubmittedBuffers.get(xid);
         if (txnBuffers == null) {
             txnBuffers = new ConcurrentLinkedQueue<Buffer>();
@@ -206,7 +207,7 @@ public class GatheringDiskWriter extends EventWorker {
         } else {
             txnBuffers.add(logEntry);
         }
-        int currentCumulativeSize = cumulativeBufferSize.addAndGet(logEntry.getBuffer().remaining());
+        int currentCumulativeSize = cumulativeBufferSize.addAndGet(bufferSizeToAdd);
         raiseEventThreadSafely(currentCumulativeSize);
     }
 

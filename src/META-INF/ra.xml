@@ -98,7 +98,7 @@ This source code is being made available to the public under the terms specified
         <config-property>
             <config-property-name>transactionTimeout</config-property-name>
             <config-property-type>java.lang.Integer</config-property-type>
-            <config-property-value>60</config-property-value>
+            <config-property-value>0</config-property-value>
         </config-property>
         <config-property>
             <config-property-name>enableRemoteInvocations</config-property-name>
