@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.connector;
 
 import org.xadisk.bridge.proxies.interfaces.Session;
@@ -85,11 +87,11 @@ public class XAResourceImpl implements XAResource {
             throw MiscUtils.createXAExceptionWithCause(XAException.XAER_INVAL, null);
         }
         try {
-            if (((SessionCommonness) sessionOfTransaction).isUsingReadOnlyOptimization()) {
-                ((SessionCommonness) sessionOfTransaction).completeReadOnlyTransaction();
+            if(((SessionCommonness)sessionOfTransaction).isUsingReadOnlyOptimization()) {
+                ((SessionCommonness)sessionOfTransaction).completeReadOnlyTransaction();
                 return XAResource.XA_RDONLY;
             } else {
-                ((SessionCommonness) sessionOfTransaction).prepare();
+                ((SessionCommonness)sessionOfTransaction).prepare();
                 return XAResource.XA_OK;
             }
         } catch (NoTransactionAssociatedException note) {
@@ -126,7 +128,7 @@ public class XAResourceImpl implements XAResource {
             throw MiscUtils.createXAExceptionWithCause(XAException.XAER_INVAL, null);
         }
         try {
-            ((SessionCommonness) sessionOfTransaction).commit(onePhase);
+            ((SessionCommonness)sessionOfTransaction).commit(onePhase);
         } catch (NoTransactionAssociatedException note) {
             throw MiscUtils.createXAExceptionWithCause(XAException.XAER_OUTSIDE, note);
         } catch (XASystemException xase) {
@@ -165,7 +167,7 @@ public class XAResourceImpl implements XAResource {
         if (transactionTimeout == 0) {
             this.transactionTimeout = xaFileSystem.getDefaultTransactionTimeout();
         } else if (transactionTimeout > 0) {
-            this.transactionTimeout = transactionTimeout;
+        this.transactionTimeout = transactionTimeout;
         }
         return true;
     }

@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem.utilities;
 
 import java.io.File;
@@ -15,7 +17,6 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 public class Logger {
-
     private File logFilePath;
     private PrintStream logFileStream;
     private final byte logLevel;
@@ -27,9 +28,9 @@ public class Logger {
     private static final int LOG_FILE_MAX_SIZE = 1000000;
     private Object[] date;
     MessageFormat formatter = new MessageFormat("{0,date} {0,time}");
-
+    
     public Logger(File logFilePath, byte logLevel) throws IOException {
-        if (logFilePath.exists()) {
+        if(logFilePath.exists()) {
             logFilePath.renameTo(new File(logFilePath.getAbsolutePath() + "_" + System.currentTimeMillis()));
         }
         this.logFilePath = logFilePath;
@@ -83,10 +84,10 @@ public class Logger {
     public void release() throws IOException {
         logFileStream.close();
     }
-
+    
     private void writeMessageToLogFile(String msg) {
         StringBuffer sb = new StringBuffer();
-        ((Date) date[0]).setTime(System.currentTimeMillis());
+        ((Date)date[0]).setTime(System.currentTimeMillis());
         formatter.format(date, sb, null);
 
         String logMsg = sb + " : " + msg + "\n\n";
@@ -99,10 +100,10 @@ public class Logger {
 
     private void setLogFileSize(long newLogFileSize) {
         logFileSize = newLogFileSize;
-        if (logFileSize >= LOG_FILE_MAX_SIZE) {
+        if(logFileSize >= LOG_FILE_MAX_SIZE) {
             try {
                 rotateLogFile();
-            } catch (FileNotFoundException fnfe) {
+            } catch(FileNotFoundException fnfe) {
                 //cant help, so print on console.
                 fnfe.printStackTrace();
             }

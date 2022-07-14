@@ -1,9 +1,11 @@
 /*
  Copyright © 2010-2014, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem.standalone;
 
 import java.util.concurrent.SynchronousQueue;
@@ -32,7 +34,7 @@ public class StandaloneWorkManager implements WorkManager {
             throws WorkException {
         try {
             threadPool.execute(new WorkRunnable(work, workListener));
-        } catch (Exception e) {
+        } catch(Exception e) {
             throw new WorkException(e);
         }
         return 1;

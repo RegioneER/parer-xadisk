@@ -1,9 +1,11 @@
 /*
  Copyright © 2010-2014, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem.workers;
 
 import org.xadisk.filesystem.pools.PooledBuffer;
@@ -91,7 +93,7 @@ public class GatheringDiskWriter extends EventWorker {
                 TransactionInformation xid = entry.getKey();
                 ConcurrentLinkedQueue<Buffer> txnBuffers = transactionSubmittedBuffers.get(xid);
                 Buffer buffer;
-                while ((buffer = txnBuffers.poll()) != null) {
+                while((buffer = txnBuffers.poll()) != null) {
                     xidsList.add(xid);
                     allBuffersToWrite.add(buffer);
                 }
@@ -106,7 +108,7 @@ public class GatheringDiskWriter extends EventWorker {
         }
     }
 
-    public void writeRemainingBuffersNow(TransactionInformation xid) throws
+    public void writeRemainingBuffersNow(TransactionInformation xid) throws 
             IOException {
         try {
             transactionLogLock.lock();
@@ -164,7 +166,6 @@ public class GatheringDiskWriter extends EventWorker {
                 buffersToMakeOnDisk.add(i);
                 buffersArray[i].setOnDiskInfo(new OnDiskInfo(currentLogIndex, entryPosition));
             } else {
-                //in both cases:if/else, we need to do the below tracking for log-usages.
                 TransactionLogsUtility.trackTransactionLogsUsage(xids[i], transactionsAndLogsOccupied,
                         transactionLogsAndOpenTransactions, currentLogIndex);
                 addInMemoryBufferToTransaction(xids[i], buffersArray[i]);
@@ -286,7 +287,7 @@ public class GatheringDiskWriter extends EventWorker {
                 long startingPosition = transactionLogChannel.position();
                 contents.position(contentPosition);
                 while (n < contentLength) {
-                    n += transactionLogChannel.transferFrom(contents, startingPosition + n,
+                    n += transactionLogChannel.transferFrom(contents, startingPosition + n, 
                             NativeXAFileSystem.maxTransferToChannel(contentLength - n));
                 }
                 transactionLogChannel.position(startingPosition + n);

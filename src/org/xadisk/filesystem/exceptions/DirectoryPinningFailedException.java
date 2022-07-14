@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem.exceptions;
 
 import org.xadisk.bridge.proxies.interfaces.XADiskBasicIOOperations;
@@ -23,9 +25,11 @@ import org.xadisk.bridge.proxies.interfaces.XADiskBasicIOOperations;
  *
  * @since 1.0
  */
+
 public class DirectoryPinningFailedException extends LockingFailedException {
 
     private static final long serialVersionUID = 1L;
+    
     private final String descendantPath;
 
     public DirectoryPinningFailedException(String path, String descendantPath) {
@@ -38,7 +42,7 @@ public class DirectoryPinningFailedException extends LockingFailedException {
         return super.getGenericMessage() + " The reason is : "
                 + "A descendant file/directory [" + descendantPath + "] has been locked by some other transaction.";
     }
-
+    
     /**
      * Returns the descendant file/directory's path, lock on which is blocking the current operation to proceed.
      * @return the path of the descendant file/directory.

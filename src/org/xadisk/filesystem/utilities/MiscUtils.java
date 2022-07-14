@@ -1,9 +1,10 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
 package org.xadisk.filesystem.utilities;
 
 import java.io.Closeable;
@@ -19,19 +20,19 @@ public class MiscUtils {
         xae.initCause(cause);
         return xae;
     }
-
+    
     public static boolean isRootPath(File f) {
-        if (f.getParentFile() == null) {
+        if(f.getParentFile() == null) {
             return true;
         }
-        if (f.getAbsolutePath().startsWith("\\\\")) {
+        if(f.getAbsolutePath().startsWith("\\\\")) {
             File parent = f.getParentFile();
             //parent=null is infeasible here.
             File grandParent = parent.getParentFile();
-            if (grandParent == null) {
+            if(grandParent == null) {
                 return false;
             }
-            if (grandParent.getParentFile() == null) {
+            if(grandParent.getParentFile() == null) {
                 return true;
             }
         }
@@ -39,11 +40,11 @@ public class MiscUtils {
     }
 
     public static void closeAll(Closeable... closeables) {
-        for (Closeable closeable : closeables) {
-            if (closeable != null) {
+        for(Closeable closeable: closeables) {
+            if(closeable != null) {
                 try {
                     closeable.close();
-                } catch (IOException ioe) {
+                } catch(IOException ioe) {
                 }
             }
         }

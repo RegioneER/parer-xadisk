@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem;
 
 import org.xadisk.filesystem.utilities.FileIOUtility;
@@ -257,7 +259,7 @@ public class TransactionLogEntry {
 
     public static byte[] getLogEntry(EndPointActivation remoteEPActivation, byte activation_deActivation) {
         try {
-            RemoteXADiskActivationSpecImpl ras = (RemoteXADiskActivationSpecImpl) (remoteEPActivation.getActivationSpecImpl());
+            RemoteXADiskActivationSpecImpl ras = (RemoteXADiskActivationSpecImpl)(remoteEPActivation.getActivationSpecImpl());
             RemoteMessageEndpointFactory remoteMEPF = (RemoteMessageEndpointFactory) remoteEPActivation.getMessageEndpointFactory();
 
             byte[][] variableBytes = new byte[3][];

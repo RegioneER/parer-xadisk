@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.bridge.server.conversation;
 
 import java.io.IOException;
@@ -97,12 +99,12 @@ public class ConversationContext {
     }
 
     Object convertToProxyResponseIfRequired(Object response) {
-        if (xaFileSystem.getHandleGeneralRemoteInvocations()) {
+        if(xaFileSystem.getHandleGeneralRemoteInvocations()) {
             if (response instanceof Session) {
                 allSessionsInsideThisConversation.add((NativeSession) response);
                 return new RemoteSession(conversationalHostedContext.hostObject(response), null);
             }
-            if (response instanceof XAFileInputStream) {
+                if (response instanceof XAFileInputStream) {
                 return new RemoteXAFileInputStream(conversationalHostedContext.hostObject(response), null);
             }
             if (response instanceof XAFileOutputStream) {
@@ -112,8 +114,8 @@ public class ConversationContext {
                 return new RemoteMessageEndpoint(globalHostedContext.hostObject(response), null);
             }
         }
-        if (xaFileSystem.getHandleClusterRemoteInvocations()) {
-            if (response instanceof Lock) {
+        if(xaFileSystem.getHandleClusterRemoteInvocations()) {
+            if(response instanceof Lock) {
                 Lock lock = (Lock) response;
                 return new RemoteLock(conversationalHostedContext.hostObject(response),
                         lock.getResource(), lock.isExclusive());

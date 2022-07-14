@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem.exceptions;
 
 import org.xadisk.bridge.proxies.interfaces.XADiskBasicIOOperations;
@@ -23,9 +25,11 @@ import org.xadisk.bridge.proxies.interfaces.XAFileOutputStream;
  *
  * @since 1.0
  */
+
 public class FileUnderUseException extends XAApplicationException {
 
     private static final long serialVersionUID = 1L;
+    
     private String path;
     private boolean dueToNonHeavyWriteModeOutputStream;
 
@@ -36,11 +40,11 @@ public class FileUnderUseException extends XAApplicationException {
 
     @Override
     public String getMessage() {
-        if (dueToNonHeavyWriteModeOutputStream) {
-            return "The file [" + path + "] being accessed already has an output stream open to it in"
+        if(dueToNonHeavyWriteModeOutputStream) {
+            return "The file [" +path+ "] being accessed already has an output stream open to it in"
                     + "non-heavyWrite mode by the current transaction.";
         } else {
-            return "The file [" + path + "] being deleted has an input/output stream open to it "
+            return "The file [" +path+ "] being deleted has an input/output stream open to it "
                     + "by the current transaction.";
         }
     }
@@ -48,7 +52,7 @@ public class FileUnderUseException extends XAApplicationException {
     /**
      * Returns the path of the file upon which the i/o operation could not succeed.
      * @return the path of the file.
-     */
+    */
     public String getPath() {
         return path;
     }

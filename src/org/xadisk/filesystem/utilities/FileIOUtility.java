@@ -1,9 +1,11 @@
 /*
- Copyright ? 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
  */
+
+
 package org.xadisk.filesystem.utilities;
 
 import java.io.EOFException;
@@ -24,14 +26,7 @@ public class FileIOUtility {
             if (renamePossible(src, dest)) {
                 int retryCount = 1;
                 while (!src.renameTo(dest)) {
-                    try {
-                        doGCBeforeRetry(retryCount++, src);
-                    } catch(IOException ioe) {
-                        if(ioe.getCause() == null) {
-                            throw new IOException(ioe.getMessage() + " One possible reason is that the "
-                                    + "source path and the destination path belong to different file-systems.");
-                        }
-                    }
+					doGCBeforeRetry(retryCount++, src);
                     if (src.renameTo(dest)) {
                         break;
                     }
@@ -64,7 +59,7 @@ public class FileIOUtility {
         }
         int retryCount = 1;
         while (!f.delete()) {
-            doGCBeforeRetry(retryCount++, f);
+			doGCBeforeRetry(retryCount++, f);
         }
     }
 
@@ -99,7 +94,7 @@ public class FileIOUtility {
         }
         int retryCount = 1;
         while (!f.createNewFile()) {
-            doGCBeforeRetry(retryCount++, f);
+			doGCBeforeRetry(retryCount++, f);
         }
     }
 
@@ -115,7 +110,7 @@ public class FileIOUtility {
         }
         int retryCount = 1;
         while (!dir.mkdir()) {
-            doGCBeforeRetry(retryCount++, dir);
+			doGCBeforeRetry(retryCount++, dir);
         }
     }
 
@@ -137,28 +132,28 @@ public class FileIOUtility {
         String children[] = dir.list();
         int retryCount = 1;
         while (children == null) {
-            doGCBeforeRetry(retryCount++, dir);
+			doGCBeforeRetry(retryCount++, dir);
             children = dir.list();
         }
         return children;
     }
 
     private static void doGCBeforeRetry(int retryCount, File f) throws IOException {
-        if (retryCount == 5) {
+        if(retryCount == 5) {
             throw new IOException("The i/o operation could not be completed for "
-                    + "the file/directory with path [" + f.getAbsolutePath() + "] due "
-                    + "to an unknown reason.");
+                + "the file/directory with path [" + f.getAbsolutePath() + "] due "
+                + "to an unknown reason.");
         }
 
         System.gc();
         System.gc();
         System.gc();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ie) {
-            Thread.currentThread().interrupt();
-            throw (IOException) new IOException().initCause(ie);
-        }
+		try {
+			Thread.sleep(1000);
+		} catch(InterruptedException ie) {
+			Thread.currentThread().interrupt();
+			throw (IOException) new IOException().initCause(ie);
+		}
     }
 
     public static void readFromChannel(FileChannel fc, ByteBuffer buffer, int bufferOffset, int num)

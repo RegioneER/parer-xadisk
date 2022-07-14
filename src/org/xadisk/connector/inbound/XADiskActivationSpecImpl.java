@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.connector.inbound;
 
 import java.io.File;
@@ -30,7 +32,7 @@ public class XADiskActivationSpecImpl implements ActivationSpec, Serializable {
 
     public XADiskActivationSpecImpl() {
     }
-
+    
     public void setFileNamesAndEventInterests(String filesNamesAndEventInterests) {
         this.fileNamesAndEventInterests = filesNamesAndEventInterests;
         setupFileNamesAndEventInterests(filesNamesAndEventInterests.split(seperator));
@@ -107,12 +109,12 @@ public class XADiskActivationSpecImpl implements ActivationSpec, Serializable {
 
     /*
      * From JCA Spec:
-     "These objects, in general, should not override the default equals and hashCode methods. However,
+    "These objects, in general, should not override the default equals and hashCode methods. However,
      if these methods are overridden, they must preserve the equality
      constraints based on Java object identity; that is, no two objects are considered equal."
      * From Java API of Object class:
      * "As much as is reasonably practical, the hashCode method defined by class Object
-     does return distinct integers for distinct objects."
+    does return distinct integers for distinct objects."
      * We always compare the asSpec as part of Activation comparison, so by chance if
      * remote asSpec equals the local one, the MEF won't equal due to different classes.
      * But, anyway, for clarity keep a separate flag to know if remote.
@@ -122,17 +124,18 @@ public class XADiskActivationSpecImpl implements ActivationSpec, Serializable {
      * the purpose.
      */
     /*@Override
-     public boolean equals(Object obj) {
-     if (obj instanceof XADiskActivationSpecImpl) {
-     XADiskActivationSpecImpl that = (XADiskActivationSpecImpl) obj;
-     return this.originalObjectIsRemote == that.originalObjectIsRemote
-     && this.originalObjectsHashCode == that.originalObjectsHashCode;
-     }
-     return false;
-     }*/
+    public boolean equals(Object obj) {
+        if (obj instanceof XADiskActivationSpecImpl) {
+            XADiskActivationSpecImpl that = (XADiskActivationSpecImpl) obj;
+            return this.originalObjectIsRemote == that.originalObjectIsRemote
+                    && this.originalObjectsHashCode == that.originalObjectsHashCode;
+        }
+        return false;
+    }*/
 
     /*@Override
-     public int hashCode() {
-     return this.originalObjectsHashCode;
-     }*/
+    public int hashCode() {
+        return this.originalObjectsHashCode;
+    }*/
+
 }

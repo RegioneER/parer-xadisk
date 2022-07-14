@@ -1,9 +1,11 @@
 /*
  Copyright © 2010-2014, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.filesystem;
 
 import java.io.File;
@@ -15,6 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class NativeLock implements Lock {
 
     private static final long serialVersionUID = 1L;
+    
     private final File resource;
     private boolean exclusive = false;
     private boolean upgraded = false;
@@ -90,7 +93,7 @@ public class NativeLock implements Lock {
     }
 
     void waitTillReadable(long time) throws InterruptedException {
-        if (time > 0) {
+        if(time > 0) {
             mayBeReadable.await(time, TimeUnit.MILLISECONDS);
         } else {
             mayBeReadable.await();
@@ -98,13 +101,13 @@ public class NativeLock implements Lock {
     }
 
     void waitTillWritable(long time) throws InterruptedException {
-        if (time > 0) {
+        if(time > 0) {
             mayBeWritable.await(time, TimeUnit.MILLISECONDS);
         } else {
             mayBeWritable.await();
         }
     }
-
+    
     void notifyWritable() {
         mayBeWritable.signal();
     }

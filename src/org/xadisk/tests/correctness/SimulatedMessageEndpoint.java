@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.tests.correctness;
 
 import java.lang.reflect.Method;
@@ -31,7 +33,7 @@ public class SimulatedMessageEndpoint implements MessageEndpoint, FileSystemEven
 
     public void beforeDelivery(Method meth) throws NoSuchMethodException, ResourceException {
         this.generatedXid = TransactionInformation.getXidInstanceForLocalTransaction(
-                ((NativeXAFileSystem) XAFileSystemProxy.getNativeXAFileSystemReference("local")).getNextLocalTransactionId());
+                ((NativeXAFileSystem)XAFileSystemProxy.getNativeXAFileSystemReference("local")).getNextLocalTransactionId());
         try {
             epXAR.start(generatedXid, XAResource.TMNOFLAGS);
         } catch (XAException xae) {

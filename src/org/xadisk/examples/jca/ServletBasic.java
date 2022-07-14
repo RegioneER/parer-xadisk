@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.examples.jca;
 
 import java.io.File;
@@ -48,6 +50,7 @@ import org.xadisk.filesystem.exceptions.XAApplicationException;
 public class ServletBasic extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    
     //the test-file used by the application logic.
     private static final String testFile = "C:\\orders3.csv";
     //the connection-factory pointing to the target XADisk instance.

@@ -1,9 +1,10 @@
 /*
- Copyright ï¿½ 2010-2011, Nitin Verma (project owner for XADisk http://xadisk.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk http://xadisk.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
  */
+
 package org.xadisk.filesystem;
 
 import java.io.File;
@@ -25,31 +26,31 @@ public class DurableDiskSession {
     public DurableDiskSession(boolean synchronizeDirectoryChanges) {
         this.synchronizeDirectoryChanges = synchronizeDirectoryChanges;
     }
-
+    
     private enum NATIVE_LIB_NAMES {
-
-        unix_64_xadisk, unix_32_xadisk,
+		unix_64_xadisk, unix_32_xadisk,
         windows_64_xadisk, windows_32_xadisk,
         mac_64_xadisk, mac_32_xadisk,
+        solaris_64_xadisk, solaris_32_xadisk,
         placeholder_xadisk
         //these can't contain a "."
     };
-
+    
     public static boolean setupDirectorySynchronization(File xaDiskHome) throws IOException {
         boolean success = false;
-        for (NATIVE_LIB_NAMES nativeLibraryName : NATIVE_LIB_NAMES.values()) {
+        for(NATIVE_LIB_NAMES nativeLibraryName : NATIVE_LIB_NAMES.values()) {
             success = installAndLoadLibrary(nativeLibraryName.name() + ".native", xaDiskHome);
-            if (success) {
+            if(success) {
                 break;
             }
         }
-        if (success) {
+        if(success) {
             return forceDirectoryHierarchy(xaDiskHome);
         } else {
             return false;
         }
     }
-
+    
     private static boolean testDirectorySynchronizationSetup() throws IOException {
         try {
             forceDirectories(new String[0]);
@@ -66,47 +67,47 @@ public class DurableDiskSession {
         File nativeLibraryHome = new File(xaDiskHome, "native");
         FileIOUtility.createDirectoriesIfRequired(nativeLibraryHome);
         File copiedNativeLib = new File(nativeLibraryHome, nativeLibraryName);
-        if (!copiedNativeLib.exists()) {
+        if(!copiedNativeLib.exists()) {
             FileIOUtility.copyFile(libInputStream, copiedNativeLib, false);
         }
         try {
             System.load(copiedNativeLib.getAbsolutePath());
-        } catch (Throwable t) {
+        } catch(Throwable t) {
         }
         return testDirectorySynchronizationSetup();
     }
-
+    
     private static boolean forceDirectoryHierarchy(File directory) throws IOException {
         List<String> allParents = new ArrayList<String>();
         File parentDirectory = directory;
-        while (parentDirectory != null) {
+        while(parentDirectory != null) {
             allParents.add(parentDirectory.getAbsolutePath());
             parentDirectory = parentDirectory.getParentFile();
         }
         Collections.reverse(allParents);
         return forceDirectories(allParents.toArray(new String[0]));
     }
-
+    
     private static native boolean forceDirectories(String directoryPaths[]);
 
     public static void testNativeLibrary() {
         try {
-            for (NATIVE_LIB_NAMES nativeLibraryName : NATIVE_LIB_NAMES.values()) {
+            for(NATIVE_LIB_NAMES nativeLibraryName : NATIVE_LIB_NAMES.values()) {
                 InputStream libInputStream = DurableDiskSession.class.getClassLoader().
-                        getResourceAsStream("native" + "/" + nativeLibraryName + ".native");
+                getResourceAsStream("native" + "/" + nativeLibraryName + ".native");
                 File copiedNativeLib = File.createTempFile("xadisk.", ".lib");
                 FileIOUtility.copyFile(libInputStream, copiedNativeLib, false);
                 try {
                     System.load(copiedNativeLib.getAbsolutePath());
-                    if (forceDirectories(new String[0])) {
+                    if(forceDirectories(new String[0])) {
                         System.out.println("Congrats!! The native lib named [" + nativeLibraryName + "] works on your system.");
                         return;
                     }
-                } catch (Throwable t) {
+                }catch(Throwable t) {
                 }
             }
             System.out.println("Sorry. None of the available native libs work on your system.");
-        } catch (IOException ioe) {
+        } catch(IOException ioe) {
             ioe.printStackTrace();
         }
     }

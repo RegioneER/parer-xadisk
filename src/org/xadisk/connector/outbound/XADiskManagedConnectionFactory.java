@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.connector.outbound;
 
 import java.io.PrintWriter;
@@ -22,6 +24,7 @@ public class XADiskManagedConnectionFactory implements ManagedConnectionFactory 
 
     private static final long serialVersionUID = 1L;
     private transient volatile PrintWriter logWriter;
+
     private String instanceId;
 
     public XADiskManagedConnectionFactory() {
@@ -30,7 +33,7 @@ public class XADiskManagedConnectionFactory implements ManagedConnectionFactory 
     public String getInstanceId() {
         return instanceId;
     }
-
+    
     public void setInstanceId(String instanceId) {
         this.instanceId = instanceId;
     }
@@ -52,12 +55,12 @@ public class XADiskManagedConnectionFactory implements ManagedConnectionFactory 
             throws ResourceException {
         boolean glassFish = false;
         /*Throwing NSE doesn't work for glassfish and JBoss atleast. So, one workaround for
-         developers was to disable connection pooling when working with glassfish. But JBoss doeesn't
-         seem to have an option for disabling pooling. Looking
-         broadly, not "all" j2ee server implementations may support disabling of pooling; so i am
-         now implementing a hack "inside". I will return the first connection blindly for "local connection"
-         cases, and for remote connections, no need to check for address/port as an MCF will get only
-         those in the set which are from that MCF itself (i trust).
+        developers was to disable connection pooling when working with glassfish. But JBoss doeesn't
+        seem to have an option for disabling pooling. Looking
+        broadly, not "all" j2ee server implementations may support disabling of pooling; so i am
+        now implementing a hack "inside". I will return the first connection blindly for "local connection"
+        cases, and for remote connections, no need to check for address/port as an MCF will get only
+        those in the set which are from that MCF itself (i trust).
          */
         //throw new NotSupportedException("Please don't pool connections to this EIS");
         if (candidates.size() == 0) {

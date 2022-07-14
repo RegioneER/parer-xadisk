@@ -1,9 +1,11 @@
 /*
- Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
+Copyright © 2010-2011, Nitin Verma (project owner for XADisk https://xadisk.dev.java.net/). All rights reserved.
 
- This source code is being made available to the public under the terms specified in the license
- "Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
- */
+This source code is being made available to the public under the terms specified in the license
+"Eclipse Public License 1.0" located at http://www.opensource.org/licenses/eclipse-1.0.php.
+*/
+
+
 package org.xadisk.tests.correctness;
 
 import java.io.File;
@@ -237,12 +239,12 @@ public class TestUtility {
                     long srcLength = srcChannel.size();
                     while (numTrans < srcLength) {
                         /*java 5 was behaving strangely below when the 3rd argument was a fixed integer, say 4000.
-                         This error was seen:
+                        This error was seen:
                          * java.io.IOException: Access is denied
-                         at sun.nio.ch.FileChannelImpl.truncate0(Native Method)
-                         at sun.nio.ch.FileChannelImpl.map(FileChannelImpl.java:731)
-                         at sun.nio.ch.FileChannelImpl.transferFromFileChannel(FileChannelImpl.java:540)
-                         at sun.nio.ch.FileChannelImpl.transferFrom(FileChannelImpl.java:603)
+                        at sun.nio.ch.FileChannelImpl.truncate0(Native Method)
+                        at sun.nio.ch.FileChannelImpl.map(FileChannelImpl.java:731)
+                        at sun.nio.ch.FileChannelImpl.transferFromFileChannel(FileChannelImpl.java:540)
+                        at sun.nio.ch.FileChannelImpl.transferFrom(FileChannelImpl.java:603)
                          */
                         numTrans += destChannel.transferFrom(srcChannel, numTrans, srcLength - numTrans);
                     }
