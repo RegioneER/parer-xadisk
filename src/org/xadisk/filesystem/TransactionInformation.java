@@ -147,9 +147,9 @@ public class TransactionInformation implements Xid, Serializable {
 
     @Override
     public String toString() {
-        return "gid : \t" + getHexString(gid) + "\n" +
-                "bqual : \t" + getHexString(bqual) + "\n" +
-                "formatId : \t" + Integer.toHexString(formatId);
+        return "gid : \t" + getHexString(gid) + "\n"
+                + "bqual : \t" + getHexString(bqual) + "\n"
+                + "formatId : \t" + Integer.toHexString(formatId);
     }
 
     private String getHexString(byte[] bs) {

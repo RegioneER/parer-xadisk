@@ -129,8 +129,8 @@ public class DeadLockDetector extends TimedWorker {
     }
 
     private void detectBackEdge(ResourceDependencyGraph.Node source, ResourceDependencyGraph.Node target) {
-        if (target.getPrepostVisit()[0] < source.getPrepostVisit()[0] &&
-                target.getPrepostVisit()[1] == 0) {
+        if (target.getPrepostVisit()[0] < source.getPrepostVisit()[0]
+                && target.getPrepostVisit()[1] == 0) {
             backEdges.add(source);
             backEdges.add(target);
             return;

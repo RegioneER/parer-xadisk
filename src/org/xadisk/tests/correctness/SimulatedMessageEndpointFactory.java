@@ -19,7 +19,10 @@ public class SimulatedMessageEndpointFactory implements MessageEndpointFactory {
 
     private AtomicInteger eventsReceived = new AtomicInteger(0);
     public GoTill goTill = GoTill.commit;
-    public enum GoTill {consume, prepare, commit};
+    public enum GoTill {
+
+        consume, prepare, commit
+    };
 
     public MessageEndpoint createEndpoint(XAResource xar) throws UnavailableException {
         SimulatedMessageEndpoint smep = new SimulatedMessageEndpoint(xar, this);

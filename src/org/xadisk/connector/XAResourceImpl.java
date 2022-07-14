@@ -161,7 +161,14 @@ public class XAResourceImpl implements XAResource {
     }
 
     public boolean setTransactionTimeout(int transactionTimeout) throws XAException {
+        if (transactionTimeout < 0) {
+            throw MiscUtils.createXAExceptionWithCause(XAException.XAER_INVAL, null);
+        }
+        if (transactionTimeout == 0) {
+            this.transactionTimeout = xaFileSystem.getDefaultTransactionTimeout();
+        } else if (transactionTimeout > 0) {
         this.transactionTimeout = transactionTimeout;
+        }
         return true;
     }
 

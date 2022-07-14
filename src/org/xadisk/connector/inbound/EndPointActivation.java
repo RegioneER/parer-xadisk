@@ -43,8 +43,8 @@ public class EndPointActivation implements Serializable {
     public boolean equals(Object obj) {
         if (obj instanceof EndPointActivation) {
             EndPointActivation epActivation = (EndPointActivation) obj;
-            return epActivation.activationSpecImpl.equals(this.activationSpecImpl) &&
-                    epActivation.messageEndpointFactory.equals(this.messageEndpointFactory);
+            return epActivation.activationSpecImpl.equals(this.activationSpecImpl)
+                    && epActivation.messageEndpointFactory.equals(this.messageEndpointFactory);
         }
         return false;
     }

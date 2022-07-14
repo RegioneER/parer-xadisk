@@ -34,8 +34,8 @@ public class AncestorPinnedException extends LockingFailedException {
 
     @Override
     public String getMessage() {
-        return super.getGenericMessage() + " The reason is : " +
-                "An ancestor directory [" + ancestorPath + "] has been pinned by some other transaction.";
+        return super.getGenericMessage() + " The reason is : "
+                + "An ancestor directory [" + ancestorPath + "] has been pinned by some other transaction.";
     }
 
     /**

@@ -38,7 +38,7 @@ public class LockingTimedOutException extends LockingFailedException {
 
     @Override
     public String getMessage() {
-        return super.getGenericMessage() + " The reason is : " +
-                "An attempt to acquire the lock has timed-out.";
+        return super.getGenericMessage() + " The reason is : "
+                + "An attempt to acquire the lock has timed-out.";
     }
 }

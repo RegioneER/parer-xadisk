@@ -28,9 +28,12 @@ import org.xadisk.filesystem.XAFileSystemCommonness;
 
 public class CoreXAFileSystemTests {
 
-    static enum testNames {testIOOperations, testIOOperationsPostCrash, testDynamicReadWrite,
+    static enum testNames {
+
+        testIOOperations, testIOOperationsPostCrash, testDynamicReadWrite,
         testDynamicReadWritePostCrash, testConcurrentMoneyTransfer, testConcurrentMoneyTransferPostCrash,
-        testFileSystemEventing, testFileSystemEventingPostCrash};
+        testFileSystemEventing, testFileSystemEventingPostCrash
+    };
     private static final String SEPERATOR = File.separator;
     static Object namesake = new CoreXAFileSystemTests();
     static boolean testProgressive = false;

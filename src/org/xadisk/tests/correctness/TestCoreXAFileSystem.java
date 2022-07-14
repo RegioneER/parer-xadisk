@@ -132,8 +132,9 @@ public class TestCoreXAFileSystem {
                     }
                 }
                 for (int i = 0; i < 4; i++) {
-                    if(i != 0)
+                    if (i != 0) {
                         continue;
+                    }
                     tests[i].setName(transactionDemarcatingThread);
                     tests[i].start();
                     allThreads.add(tests[i]);

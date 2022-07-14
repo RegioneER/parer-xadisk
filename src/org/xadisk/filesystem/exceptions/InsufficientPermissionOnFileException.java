@@ -32,8 +32,8 @@ public class InsufficientPermissionOnFileException extends XAApplicationExceptio
 
     @Override
     public String getMessage() {
-        return "Permission of type [" + missingPermission.name() + "] is needed over" +
-                " the file/directory with path [" + path + "] for the i/o operation to succeed.";
+        return "Permission of type [" + missingPermission.name() + "] is needed over"
+                + " the file/directory with path [" + path + "] for the i/o operation to succeed.";
     }
 
     /**

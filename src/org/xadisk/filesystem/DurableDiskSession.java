@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.xadisk.filesystem.utilities.FileIOUtility;
+import org.xadisk.filesystem.utilities.MiscUtils;
 
 public class DurableDiskSession {
 
@@ -27,9 +28,10 @@ public class DurableDiskSession {
     }
     
     private enum NATIVE_LIB_NAMES {
-        unix_32_xadisk, unix_64_xadisk,
-        windows_32_xadisk, windows_64_xadisk,
-        mac_32_xadisk, mac_64_xadisk,
+		unix_64_xadisk, unix_32_xadisk,
+        windows_64_xadisk, windows_32_xadisk,
+        mac_64_xadisk, mac_32_xadisk,
+        solaris_64_xadisk, solaris_32_xadisk,
         placeholder_xadisk
         //these can't contain a "."
     };
@@ -138,8 +140,26 @@ public class DurableDiskSession {
     public void renameTo(File src, File dest) throws IOException {
         directoriesToForce.add(src.getParentFile());
         directoriesToForce.add(dest.getParentFile());
-        directoriesToForce.remove(src);
+        if (directoriesToForce.remove(src)) {
+            directoriesToForce.add(dest);
+        }
+        updatePathsForDescendantDirectories(src, dest);
         FileIOUtility.renameTo(src, dest);
+    }
+
+    private void updatePathsForDescendantDirectories(File ancestorOldPath, File ancestorNewPath) {
+        File dirs[] = directoriesToForce.toArray(new File[0]);
+        for (File dirName : dirs) {
+            ArrayList<String> stepsToDescendToDir = MiscUtils.isDescedantOf(dirName, ancestorOldPath);
+            if (stepsToDescendToDir != null) {
+                StringBuilder newPathForDir = new StringBuilder(ancestorNewPath.getAbsolutePath());
+                for (int j = stepsToDescendToDir.size() - 1; j >= 0; j--) {
+                    newPathForDir.append(File.separator).append(stepsToDescendToDir.get(j));
+                }
+                directoriesToForce.remove(dirName);
+                directoriesToForce.add(new File(newPathForDir.toString()));
+            }
+        }
     }
 
     public void deleteFile(File f) throws IOException {

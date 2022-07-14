@@ -39,8 +39,8 @@ public class DirectoryPinningFailedException extends LockingFailedException {
 
     @Override
     public String getMessage() {
-        return super.getGenericMessage() + " The reason is : " +
-                "A descendant file/directory [" + descendantPath + "] has been locked by some other transaction.";
+        return super.getGenericMessage() + " The reason is : "
+                + "A descendant file/directory [" + descendantPath + "] has been locked by some other transaction.";
     }
     
     /**
