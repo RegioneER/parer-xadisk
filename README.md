@@ -1,3 +1,18 @@
+# PARER Xadisk
+
+Fork dell'omonimo progetto con applicate alcuni bugfix (segnalati anche allo sviluppatore di riferimento).
+
+## Note
+
+L'artefatto di riferimento è stato pubblicato nel progetto "principale" ossia [parer.sacer.parent](url).
+Deploy eseguito attraverso opportuno comando maven:
+
+```
+mvn deploy:deploy-file -DpomFile=<pom file> -DrepositoryId=github -Durl=https://maven.pkg.github.com/RegioneER/parer.sacer.parent -Dfile=<jar file> -Dfiles=<rar file> -Dclassifiers='' -Dtypes=ra
+```
+
+questo comando permette l'upload sia del file jar che di quello rar previsti dal goal "package" maven del progetto.
+
 # xadisk
 
 This project was originally hosted on xadisk.java.net, and is now migrated here.
@@ -12,4 +27,6 @@ XADisk supports both normal and distributed (XA) transactions, can recover from 
    
 Discussion Forum:
 https://groups.google.com/group/xadisk
+
+
 
