@@ -1,0 +1,11 @@
+/**/nb-configuration.xml
+/**/target/
+/**/.settings
+/ears
+/.directory
+/target/
+.project
+.vscode/settings.json
+.settings
+.classpath
+
